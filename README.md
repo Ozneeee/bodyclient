@@ -5,7 +5,7 @@
   - SPRING Framework
   - Mongo DB
  
-🟢 ** Comment faire fonctionner le projet ? ⚙️**
+🔵 **Comment faire fonctionner le projet ?** ⚙️
 
 1. Cloner le projet : `git clone https://github.com/Ozneeee/bodyclient.git`
 2. CD : `cd bodyclient`
@@ -20,7 +20,7 @@
 
 
 
-🟣**Méthodes fonctionnelles :**
+🔵 **Méthodes fonctionnelles :**
 - post
 - put
 - delete
