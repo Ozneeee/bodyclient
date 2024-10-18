@@ -1,11 +1,11 @@
-**BodyClient est un logiciel de gestion de clientele Fitness réalisé dans un but d'apprentissage avec DIGINAMIC**
+🔵 **BodyClient est un logiciel de gestion de clientele Fitness réalisé dans un but d'apprentissage avec DIGINAMIC**
 
 - Tech utilisée :
   - JAVA 21
   - SPRING Framework
   - Mongo DB
  
-**- Comment faire fonctionner le projet ? ⚙️**
+🟢 ** Comment faire fonctionner le projet ? ⚙️**
 
 1. Cloner le projet : `git clone https://github.com/Ozneeee/bodyclient.git`
 2. CD : `cd bodyclient`
@@ -18,7 +18,9 @@
 7. ENJOY 😄
 
 
-**Méthodes fonctionnelles :**
+
+
+🟣**Méthodes fonctionnelles :**
 - post
 - put
 - delete
