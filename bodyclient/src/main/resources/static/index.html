@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BodyClient - Outil de Gestion de la clientele Fitness</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>BodyClient</h1>
+    <h2>Bienvenue sur BodyClient ! Le logiciel
+        numéro 1 dans la gestion de
+        clientele Fitness !</h2>
+    <div style="margin-top: 50px;">
+        <button onclick="createUtilisateur()">Créer un Utilisateur</button>
+        <button onclick="getUtilisateurs()">Voir tous les Utilisateurs</button>
+    </div>
+
+    <div id="users"></div>
+
+    <script>
+
+        function createUtilisateur() {
+            const utilisateur = {
+                firstName: "Enzo",
+                lastName: "Dupont",
+                type: "client",
+                abonnementType: "premium"
+            };
+
+            fetch("http://localhost:8080/api/users/create", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(utilisateur),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(`Utilisateur créé: ${data.firstName} ${data.lastName}`);
+                })
+                .catch(error => console.error('Erreur lors de la création de l\'utilisateur:', error));
+        }
+
+        function getUtilisateurs() {
+            fetch("http://localhost:8080/api/users/all")
+                .then(response => response.json())
+                .then(data => {
+                    const usersDiv = document.getElementById('users');
+                    usersDiv.innerHTML = '';
+
+                    data.forEach(utilisateur => {
+                        const userElement = document.createElement('div');
+                        userElement.classList.add('user-element');
+
+                        userElement.innerHTML = `
+                    <span>ID: ${utilisateur.id}, Nom: ${utilisateur.lastName}, Prénom: ${utilisateur.firstName}, Type: ${utilisateur.type}, Abonnement: ${utilisateur.abonnementType}</span>
+                    <div class="action-icons" style="display: inline-block; margin-left: 10px;">
+                        <span class="delete-icon" onclick="deleteUtilisateur('${utilisateur.id}')" style="color: red; cursor: pointer;">🗑️</span>
+                        <span class="edit-icon" onclick="updateUserAbonnement('${utilisateur.id}')" style="cursor: pointer;">✏️</span>
+                    </div>
+                `;
+
+                        usersDiv.appendChild(userElement);
+                    });
+                })
+                .catch(error => console.error('Erreur lors de la récupération des utilisateurs:', error));
+        }
+
+        function deleteUtilisateur(userId) {
+            fetch(`http://localhost:8080/api/users/${userId}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Utilisateur supprimé avec succès.');
+                        getUtilisateurs();
+                    } else {
+                        alert('Erreur lors de la suppression de l\'utilisateur.');
+                    }
+                })
+                .catch(error => console.error('Erreur lors de la suppression de l\'utilisateur:', error));
+        }
+
+        function updateUserAbonnement(userId) {
+            const newAbonnementType = prompt("Entrez le nouveau type d'abonnement :");
+
+            if (newAbonnementType) {
+                const updatedUser = {
+                    abonnementType: newAbonnementType
+                };
+
+                fetch(`http://localhost:8080/api/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedUser),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Type d\'abonnement mis à jour avec succès.');
+                            getUtilisateurs();
+                        } else {
+                            alert('Erreur lors de la mise à jour de l\'abonnement.');
+                        }
+                    })
+                    .catch(error => console.error('Erreur lors de la mise à jour de l\'abonnement:', error));
+            }
+        }
+    </script>
+
+</body>
+
+</html>
